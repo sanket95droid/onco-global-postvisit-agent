@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GenAiPromptTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <activeVersionIdentifier>FNug/27mok5wtRS9Wlh6rGAtSYl8XqcZ+m4ER3ujl20=_1</activeVersionIdentifier>
+    <developerName>sample_template</developerName>
+    <masterLabel>sample template</masterLabel>
+    <overridable>false</overridable>
+    <templateVersions>
+        <content>Summarize the visit Log : {!$RecordSnapshot:Visit_Log.snapshot}
+</content>
+        <fileDroppingStrategy>{&quot;dropFilesBy&quot;:&quot;LAST_MODIFIED_DATE&quot;,&quot;dropFileStartingWith&quot;:&quot;OLDEST&quot;}</fileDroppingStrategy>
+        <inputs>
+            <apiName>Visit_Log</apiName>
+            <definition>SOBJECT://Visit_Log__c</definition>
+            <masterLabel>Visit Log</masterLabel>
+            <referenceName>Input:Visit_Log</referenceName>
+            <required>true</required>
+        </inputs>
+        <isCitationEnabled>false</isCitationEnabled>
+        <primaryModel>sfdc_ai__DefaultGPT5Mini</primaryModel>
+        <status>Published</status>
+        <templateDataProviders>
+            <definition>invocable://getDataForGrounding</definition>
+            <description>Retrieves record data for grounding a prompt template.</description>
+            <label>Record Snapshot</label>
+            <parameters>
+                <definition>primitive://String</definition>
+                <isRequired>true</isRequired>
+                <parameterName>recordId</parameterName>
+                <valueExpression>{!$Input:Visit_Log.Id}</valueExpression>
+            </parameters>
+            <referenceName>RecordSnapshot:Visit_Log</referenceName>
+        </templateDataProviders>
+        <versionIdentifier>FNug/27mok5wtRS9Wlh6rGAtSYl8XqcZ+m4ER3ujl20=_1</versionIdentifier>
+    </templateVersions>
+    <type>einstein_gpt__flex</type>
+    <visibility>Global</visibility>
+</GenAiPromptTemplate>

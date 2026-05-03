@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GenAiPromptTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <activeVersionIdentifier>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=_1</activeVersionIdentifier>
+    <developerName>OncoGlobal_ParseVisitNotesTemplate</developerName>
+    <masterLabel>OncoGlobal Parse Visit Notes</masterLabel>
+    <overridable>false</overridable>
+    <templateVersions>
+        <content>You are an AI assistant for Onco Global, a cancer care hospital network in India. A field sales executive has just visited a referring physician and dictated their visit notes. Extract structured information from the raw notes. Respond ONLY with valid JSON. No explanation, no markdown, no preamble.
+
+JSON schema:
+{
+  &quot;structuredSummary&quot;: &quot;string — 2-3 sentence professional summary of the visit&quot;,
+  &quot;topicsDiscussed&quot;: &quot;string — comma-separated topics (e.g. Radiation Therapy, Head &amp; Neck Oncology)&quot;,
+  &quot;referralInterest&quot;: &quot;one of: High | Medium | Low | None&quot;,
+  &quot;specialtiesDiscussed&quot;: &quot;string — comma-separated oncology specialties&quot;,
+  &quot;requestedMaterials&quot;: &quot;string — materials or brochures requested, or &apos;None&apos;&quot;,
+  &quot;followUpActions&quot;: &quot;string — comma-separated follow-up actions mentioned&quot;,
+  &quot;physicianSentiment&quot;: &quot;one of: Positive | Neutral | Negative&quot;
+}
+
+Rules:
+- referralInterest is High if the physician explicitly agreed to refer patients.
+- referralInterest is Medium if they showed interest but did not commit.
+- referralInterest is Low if they were polite but non-committal.
+- referralInterest is None if there was no referral discussion.
+- physicianSentiment reflects the doctor&apos;s overall attitude toward Onco Global.
+- If a field cannot be determined, use an empty string or &quot;None&quot;.
+- All values must be in English.
+
+Physician: {!$Input:physicianName}
+Clinic: {!$Input:clinicName}
+Visit Date: {!$Input:visitDate}
+Raw Notes: {!$Input:rawNotes}</content>
+        <fileDroppingStrategy>{&quot;dropFilesBy&quot;:&quot;LAST_MODIFIED_DATE&quot;,&quot;dropFileStartingWith&quot;:&quot;OLDEST&quot;}</fileDroppingStrategy>
+        <inputs>
+            <apiName>physicianName</apiName>
+            <definition>primitive://String</definition>
+            <masterLabel>Physician Name</masterLabel>
+            <referenceName>Input:physicianName</referenceName>
+            <required>false</required>
+        </inputs>
+        <inputs>
+            <apiName>clinicName</apiName>
+            <definition>primitive://String</definition>
+            <masterLabel>Clinic Name</masterLabel>
+            <referenceName>Input:clinicName</referenceName>
+            <required>false</required>
+        </inputs>
+        <inputs>
+            <apiName>visitDate</apiName>
+            <definition>primitive://String</definition>
+            <masterLabel>Visit Date</masterLabel>
+            <referenceName>Input:visitDate</referenceName>
+            <required>false</required>
+        </inputs>
+        <inputs>
+            <apiName>rawNotes</apiName>
+            <definition>primitive://String</definition>
+            <masterLabel>Raw Notes</masterLabel>
+            <referenceName>Input:rawNotes</referenceName>
+            <required>true</required>
+        </inputs>
+        <isCitationEnabled>false</isCitationEnabled>
+        <primaryModel>sfdc_ai__DefaultGPT5Mini</primaryModel>
+        <status>Published</status>
+        <versionIdentifier>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=_1</versionIdentifier>
+    </templateVersions>
+    <type>einstein_gpt__flex</type>
+    <visibility>Global</visibility>
+</GenAiPromptTemplate>

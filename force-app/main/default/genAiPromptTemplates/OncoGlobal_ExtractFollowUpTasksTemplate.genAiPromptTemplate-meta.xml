@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GenAiPromptTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <activeVersionIdentifier>BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB=_1</activeVersionIdentifier>
+    <developerName>OncoGlobal_ExtractFollowUpTasksTemplate</developerName>
+    <masterLabel>OncoGlobal Extract Follow Up Tasks</masterLabel>
+    <overridable>false</overridable>
+    <templateVersions>
+        <content>You are an AI assistant for Onco Global&apos;s field sales team. Extract all follow-up actions from the visit notes and return them as a JSON array. Respond ONLY with valid JSON. No explanation, no markdown.
+
+JSON schema:
+[
+  {
+    &quot;subject&quot;: &quot;string — clear, actionable task title (max 80 chars)&quot;,
+    &quot;taskType&quot;: &quot;one of: Call | Email | Meeting | Send Material | Other&quot;,
+    &quot;dueDate&quot;: &quot;ISO 8601 date string (YYYY-MM-DD) — infer from relative references like &apos;next Thursday&apos;&quot;,
+    &quot;priority&quot;: &quot;one of: High | Normal | Low&quot;,
+    &quot;description&quot;: &quot;string — additional context for the task&quot;
+  }
+]
+
+Rules:
+- Today&apos;s date is provided in the input. Use it to resolve relative dates.
+- If no due date is mentioned, default to 7 days from today.
+- &quot;Send brochure&quot; or &quot;Share materials&quot; → taskType = Send Material
+- &quot;Schedule lunch&quot; or &quot;Meet again&quot; → taskType = Meeting
+- &quot;Call to follow up&quot; → taskType = Call
+- Return an empty array [] if no follow-up actions are found.
+
+Today&apos;s Date: {!$Input:todayDate}
+Physician: {!$Input:physicianName}
+Visit Summary: {!$Input:visitSummary}
+Follow Up Actions (raw): {!$Input:followUpActionsRaw}</content>
+        <fileDroppingStrategy>{&quot;dropFilesBy&quot;:&quot;LAST_MODIFIED_DATE&quot;,&quot;dropFileStartingWith&quot;:&quot;OLDEST&quot;}</fileDroppingStrategy>
+        <inputs>
+            <apiName>todayDate</apiName>
+            <definition>primitive://String</definition>
+            <masterLabel>Today Date</masterLabel>
+            <referenceName>Input:todayDate</referenceName>
+            <required>true</required>
+        </inputs>
+        <inputs>
+            <apiName>physicianName</apiName>
+            <definition>primitive://String</definition>
+            <masterLabel>Physician Name</masterLabel>
+            <referenceName>Input:physicianName</referenceName>
+            <required>false</required>
+        </inputs>
+        <inputs>
+            <apiName>visitSummary</apiName>
+            <definition>primitive://String</definition>
+            <masterLabel>Visit Summary</masterLabel>
+            <referenceName>Input:visitSummary</referenceName>
+            <required>false</required>
+        </inputs>
+        <inputs>
+            <apiName>followUpActionsRaw</apiName>
+            <definition>primitive://String</definition>
+            <masterLabel>Follow Up Actions Raw</masterLabel>
+            <referenceName>Input:followUpActionsRaw</referenceName>
+            <required>true</required>
+        </inputs>
+        <isCitationEnabled>false</isCitationEnabled>
+        <primaryModel>sfdc_ai__DefaultGPT5Mini</primaryModel>
+        <status>Published</status>
+        <versionIdentifier>BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB=_1</versionIdentifier>
+    </templateVersions>
+    <type>einstein_gpt__flex</type>
+    <visibility>Global</visibility>
+</GenAiPromptTemplate>

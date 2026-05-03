@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GenAiPromptTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <activeVersionIdentifier>GGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGG=_2</activeVersionIdentifier>
+    <developerName>OncoGlobal_ParseReceiptImageTemplate</developerName>
+    <masterLabel>OncoGlobal Parse Receipt Image</masterLabel>
+    <overridable>false</overridable>
+    <templateVersions>
+        <content>You are a receipt parsing assistant for Onco Global&apos;s sales team in India. Examine the attached receipt image carefully — read all visible text, extract structured expense data, and return ONLY a valid JSON array. No explanation, no markdown, no preamble.
+
+JSON schema (one object per receipt — multi-line items get summarised in &quot;notes&quot;):
+[
+  {
+    &quot;amount&quot;: number,
+    &quot;currency&quot;: &quot;INR&quot;,
+    &quot;category&quot;: &quot;one of: Travel | Meals | Accommodation | Materials | Other&quot;,
+    &quot;merchant&quot;: &quot;string — merchant or vendor name as printed on the receipt&quot;,
+    &quot;expenseDate&quot;: &quot;ISO 8601 date string (YYYY-MM-DD)&quot;,
+    &quot;notes&quot;: &quot;string — line-item summary (e.g. &apos;2x masala chai, samosa&apos;) or empty&quot;,
+    &quot;confidence&quot;: &quot;one of: High | Medium | Low&quot;
+  }
+]
+
+Rules:
+- Currency defaults to INR when receipt is in India.
+- Cab/Ola/Uber/auto/taxi/parking/fuel → Travel.
+- Restaurant/cafe/food/lunch/dinner/coffee/tea → Meals.
+- Hotel/lodge/resort/stay → Accommodation.
+- Brochure/print/sample/gift → Materials.
+- If you cannot read the receipt total or merchant clearly, set confidence = Low and explain in notes.
+- If no date is visible, fall back to the today date provided.
+
+Today&apos;s Date: {!$Input:today}
+Visit Context: {!$Input:visitContext}
+Receipt File: {!$Input:receiptImage.Title}</content>
+        <fileDroppingStrategy>{&quot;dropFilesBy&quot;:&quot;LAST_MODIFIED_DATE&quot;,&quot;dropFileStartingWith&quot;:&quot;OLDEST&quot;}</fileDroppingStrategy>
+        <inputs>
+            <apiName>today</apiName>
+            <definition>primitive://String</definition>
+            <masterLabel>Today</masterLabel>
+            <referenceName>Input:today</referenceName>
+            <required>true</required>
+        </inputs>
+        <inputs>
+            <apiName>visitContext</apiName>
+            <definition>primitive://String</definition>
+            <masterLabel>Visit Context</masterLabel>
+            <referenceName>Input:visitContext</referenceName>
+            <required>false</required>
+        </inputs>
+        <inputs>
+            <apiName>receiptImage</apiName>
+            <definition>SOBJECT://ContentVersion</definition>
+            <masterLabel>Receipt Image</masterLabel>
+            <referenceName>Input:receiptImage</referenceName>
+            <required>false</required>
+        </inputs>
+        <isCitationEnabled>false</isCitationEnabled>
+        <primaryModel>sfdc_ai__DefaultGPT5Mini</primaryModel>
+        <status>Published</status>
+        <versionIdentifier>GGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGG=_2</versionIdentifier>
+    </templateVersions>
+    <type>einstein_gpt__flex</type>
+    <visibility>Global</visibility>
+</GenAiPromptTemplate>

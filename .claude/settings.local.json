@@ -1,0 +1,12 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(sf --version)",
+      "Bash(sf org *)",
+      "mcp__Salesforce_DX__run_soql_query",
+      "mcp__Salesforce_DX__deploy_metadata",
+      "Bash(sf project *)",
+      "Bash(pip install *)"
+    ]
+  }
+}

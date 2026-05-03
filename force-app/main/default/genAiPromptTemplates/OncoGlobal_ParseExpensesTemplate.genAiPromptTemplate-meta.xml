@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GenAiPromptTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <activeVersionIdentifier>DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD=_1</activeVersionIdentifier>
+    <developerName>OncoGlobal_ParseExpensesTemplate</developerName>
+    <masterLabel>OncoGlobal Parse Expenses</masterLabel>
+    <overridable>false</overridable>
+    <templateVersions>
+        <content>You are an expense parsing assistant for Onco Global&apos;s sales team in India. Parse the free-form expense input and return a JSON array of expense items. Respond ONLY with valid JSON. No explanation, no markdown.
+
+JSON schema:
+[
+  {
+    &quot;amount&quot;: number,
+    &quot;currency&quot;: &quot;INR&quot;,
+    &quot;category&quot;: &quot;one of: Travel | Meals | Accommodation | Materials | Other&quot;,
+    &quot;merchant&quot;: &quot;string — merchant or vendor name, or empty string&quot;,
+    &quot;expenseDate&quot;: &quot;ISO 8601 date string (YYYY-MM-DD)&quot;,
+    &quot;notes&quot;: &quot;string — additional context, or empty string&quot;
+  }
+]
+
+Rules:
+- Default currency is INR unless explicitly stated otherwise.
+- &quot;Cab&quot;, &quot;Ola&quot;, &quot;Uber&quot;, &quot;auto&quot;, &quot;taxi&quot; → category = Travel
+- &quot;Lunch&quot;, &quot;dinner&quot;, &quot;coffee&quot;, &quot;snacks&quot;, &quot;food&quot; → category = Meals
+- &quot;Hotel&quot;, &quot;stay&quot;, &quot;lodge&quot; → category = Accommodation
+- &quot;Brochure&quot;, &quot;gift&quot;, &quot;samples&quot; → category = Materials
+- If no date is mentioned, use the today date provided.
+- If multiple items are mentioned, return multiple objects in the array.
+
+Today&apos;s Date: {!$Input:today}
+Visit Context: {!$Input:visitContext}
+Raw Expense Input: {!$Input:rawExpenseText}</content>
+        <fileDroppingStrategy>{&quot;dropFilesBy&quot;:&quot;LAST_MODIFIED_DATE&quot;,&quot;dropFileStartingWith&quot;:&quot;OLDEST&quot;}</fileDroppingStrategy>
+        <inputs>
+            <apiName>today</apiName>
+            <definition>primitive://String</definition>
+            <masterLabel>Today</masterLabel>
+            <referenceName>Input:today</referenceName>
+            <required>true</required>
+        </inputs>
+        <inputs>
+            <apiName>visitContext</apiName>
+            <definition>primitive://String</definition>
+            <masterLabel>Visit Context</masterLabel>
+            <referenceName>Input:visitContext</referenceName>
+            <required>false</required>
+        </inputs>
+        <inputs>
+            <apiName>rawExpenseText</apiName>
+            <definition>primitive://String</definition>
+            <masterLabel>Raw Expense Text</masterLabel>
+            <referenceName>Input:rawExpenseText</referenceName>
+            <required>true</required>
+        </inputs>
+        <isCitationEnabled>false</isCitationEnabled>
+        <primaryModel>sfdc_ai__DefaultGPT5Mini</primaryModel>
+        <status>Published</status>
+        <versionIdentifier>DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD=_1</versionIdentifier>
+    </templateVersions>
+    <type>einstein_gpt__flex</type>
+    <visibility>Global</visibility>
+</GenAiPromptTemplate>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Follow_Up_Actions__c</fullName>
+    <description>Raw extracted follow-up text from the visit.</description>
+    <label>Follow Up Actions</label>
+    <length>4096</length>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>LongTextArea</type>
+    <visibleLines>5</visibleLines>
+</CustomField>

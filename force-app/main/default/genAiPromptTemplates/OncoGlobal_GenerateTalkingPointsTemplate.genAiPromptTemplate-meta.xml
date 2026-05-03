@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GenAiPromptTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <activeVersionIdentifier>CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC=_1</activeVersionIdentifier>
+    <developerName>OncoGlobal_GenerateTalkingPointsTemplate</developerName>
+    <masterLabel>OncoGlobal Generate Talking Points</masterLabel>
+    <overridable>false</overridable>
+    <templateVersions>
+        <content>You are a pre-visit preparation assistant for Onco Global&apos;s sales team. Based on the physician relationship history below, generate 2-3 concise, personalised talking points the sales executive should cover in their upcoming visit. Make them specific, actionable, and oncology-relevant. Respond ONLY with a numbered plain-text list. No JSON, no headers.
+
+Rules:
+- Reference specific past interactions where available.
+- If referral activity shows declining trend, suggest a re-engagement talking point.
+- If materials were previously requested or open tasks include sending materials, remind to bring them.
+- If last sentiment was Negative, suggest an empathy-first opener.
+- Keep each point to 1-2 sentences, conversational and mobile-friendly.
+
+Physician: {!$Input:physicianName}
+Specialty: {!$Input:specialty}
+Last Visit: {!$Input:lastVisitContext}
+Referral Activity (90d): {!$Input:referralActivity}
+Open Items &amp; Materials: {!$Input:openItemsContext}</content>
+        <fileDroppingStrategy>{&quot;dropFilesBy&quot;:&quot;LAST_MODIFIED_DATE&quot;,&quot;dropFileStartingWith&quot;:&quot;OLDEST&quot;}</fileDroppingStrategy>
+        <inputs>
+            <apiName>physicianName</apiName>
+            <definition>primitive://String</definition>
+            <masterLabel>Physician Name</masterLabel>
+            <referenceName>Input:physicianName</referenceName>
+            <required>true</required>
+        </inputs>
+        <inputs>
+            <apiName>specialty</apiName>
+            <definition>primitive://String</definition>
+            <masterLabel>Specialty</masterLabel>
+            <referenceName>Input:specialty</referenceName>
+            <required>false</required>
+        </inputs>
+        <inputs>
+            <apiName>lastVisitContext</apiName>
+            <definition>primitive://String</definition>
+            <masterLabel>Last Visit Context</masterLabel>
+            <referenceName>Input:lastVisitContext</referenceName>
+            <required>false</required>
+        </inputs>
+        <inputs>
+            <apiName>referralActivity</apiName>
+            <definition>primitive://String</definition>
+            <masterLabel>Referral Activity</masterLabel>
+            <referenceName>Input:referralActivity</referenceName>
+            <required>false</required>
+        </inputs>
+        <inputs>
+            <apiName>openItemsContext</apiName>
+            <definition>primitive://String</definition>
+            <masterLabel>Open Items Context</masterLabel>
+            <referenceName>Input:openItemsContext</referenceName>
+            <required>false</required>
+        </inputs>
+        <isCitationEnabled>false</isCitationEnabled>
+        <primaryModel>sfdc_ai__DefaultGPT5Mini</primaryModel>
+        <status>Published</status>
+        <versionIdentifier>CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC=_1</versionIdentifier>
+    </templateVersions>
+    <type>einstein_gpt__flex</type>
+    <visibility>Global</visibility>
+</GenAiPromptTemplate>

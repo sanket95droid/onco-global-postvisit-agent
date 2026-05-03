@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Requested_Materials__c</fullName>
+    <description>Brochures, samples, or other materials requested by the physician.</description>
+    <label>Requested Materials</label>
+    <length>2048</length>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>LongTextArea</type>
+    <visibleLines>5</visibleLines>
+</CustomField>
